@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,20 +61,30 @@ namespace InstantSearchDemo.ViewModels
         public MainWindowViewModel()
         {
             SearchResults = new ObservableCollection<ResultItem>();
-
-
-
+            
+            string connectionString = "Server=EALSQL1.eal.local; Database=DB2017_A27; User Id= USER_A27; Password=SesamLukOp_27;";
+            SqlConnection con = new SqlConnection(connectionString);
+            con.Open();
+            SqlCommand sqlCommand = new SqlCommand("SELECT * FROM Products", con);
+            SqlDataReader reader = sqlCommand.ExecuteReader();
             _allProductResultItems = new List<ProductsResultItem>();
-            _allProductResultItems.Add(new ProductsResultItem("Produkter", "Hættetrøje", "Astralis Hættetrøje"));
-            _allProductResultItems.Add(new ProductsResultItem("Produkter", "Kasket", "Liquid Kasket"));
-            _allProductResultItems.Add(new ProductsResultItem("Produkter", "iPhone Cover", "iPhone cover m. OG Logo"));
+            while (reader.Read())
+            {
+                _allProductResultItems.Add(new ProductsResultItem("Produkter",
+                    (string)reader["ProductName"],
+                    (string)reader["ProductDescription"]));
+            }
+
+            //    _allProductResultItems = new List<ProductsResultItem>();
+            //_allProductResultItems.Add(new ProductsResultItem("Produkter", "Hættetrøje", "Astralis Hættetrøje"));
+            //_allProductResultItems.Add(new ProductsResultItem("Produkter", "Kasket", "Liquid Kasket"));
+            //_allProductResultItems.Add(new ProductsResultItem("Produkter", "iPhone Cover", "iPhone cover m. OG Logo"));
 
             _allHelpResultItems = new List<HelpResultItem>();
-            _allHelpResultItems.Add(new HelpResultItem("Help Topics", "Add customer", "To add a customer ..."));
-            _allHelpResultItems.Add(new HelpResultItem("Help Topics", "Delete customer", "To delete a customer ..."));
+            _allHelpResultItems.Add(new HelpResultItem("Ingen Resultater", "Prøv at søge anderledes", "Eller kontakt support"));
+            //_allHelpResultItems.Add(new HelpResultItem("Help Topics", "Delete customer", "To delete a customer ..."));
 
             SearchText = "";
         }
-
     }
 }
