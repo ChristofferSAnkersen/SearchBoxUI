@@ -12,7 +12,7 @@ namespace InstantSearchDemo.ViewModels
     public class MainWindowViewModel
     {
 
-        List<CustomerResultItem> _allCustomerResultItems;
+        List<ProductsResultItem> _allProductResultItems;
         List<HelpResultItem> _allHelpResultItems;
 
         string _searchText;
@@ -26,8 +26,8 @@ namespace InstantSearchDemo.ViewModels
             {
                 _searchText = value;
                 SearchResults.Clear();
-                foreach(CustomerResultItem item in _allCustomerResultItems) {
-                    if(item.CompanyName.ToLower().Contains(_searchText.ToLower())) {
+                foreach(ProductsResultItem item in _allProductResultItems) {
+                    if(item.ProductName.ToLower().Contains(_searchText.ToLower())) {
                         SearchResults.Add(item);
                     }
                 }
@@ -61,10 +61,12 @@ namespace InstantSearchDemo.ViewModels
         {
             SearchResults = new ObservableCollection<ResultItem>();
 
-            _allCustomerResultItems = new List<CustomerResultItem>();
-            _allCustomerResultItems.Add(new CustomerResultItem("Customers", "ABC Corp", "Helga Smith", "helga.smith@abccorp.com"));
-            _allCustomerResultItems.Add(new CustomerResultItem("Customers", "We Love Plumbing", "Joe Scott", "scott@weloveplumbing.com"));
-            _allCustomerResultItems.Add(new CustomerResultItem("Customers", "Boing Search", "Bill G. Ates", "chief@boing.com"));
+
+
+            _allProductResultItems = new List<ProductsResultItem>();
+            _allProductResultItems.Add(new ProductsResultItem("Produkter", "Hættetrøje", "Astralis Hættetrøje"));
+            _allProductResultItems.Add(new ProductsResultItem("Produkter", "Kasket", "Liquid Kasket"));
+            _allProductResultItems.Add(new ProductsResultItem("Produkter", "iPhone Cover", "iPhone cover m. OG Logo"));
 
             _allHelpResultItems = new List<HelpResultItem>();
             _allHelpResultItems.Add(new HelpResultItem("Help Topics", "Add customer", "To add a customer ..."));
